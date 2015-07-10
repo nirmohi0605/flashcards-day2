@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Flash Cards</title>
+        <!-- We've provided some styles for you, aren't we nice? -->
+        <link rel="stylesheet" type="text/css" href="css/reset.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+    </head>
+    <body>
+        
+        <div ng-app="FlashCards" > 
+            <div ng-controller="MainController">
+            <div ng-include="scoreTemplate"></div>
+                <div style="text-align:center; margin-top:10px">
+                    <button class="category-button" ng-repeat="category in categories" ng-class="{active: (currentCategory === category)}" ng-click="getCategoryCards(category)">{{category}}</button>
+                </div>
+
+                <div class="flash-card" ng-repeat="flashCard in flashCards" ng-show="flashCard.show" ng-controller ="FlashCardController">
+                    <h3>{{flashCard.category}}</h3>
+                    <h1>{{flashCard.question}}</h1>
+                    <ul class="flash-card-answers">
+                        <li class="flash-card-answer" ng-repeat="answer in flashCard.answers | cheat" ng-click="answerQuestion(answer)">{{answer.text | uppercase}}</li>
+                    </ul>
+                    <h2 class = "answer-feedback" ng-class="{correct: answeredCorrectly , incorrect: !answeredCorrectly}" ng-show="answered">
+                        <span ng-show="answeredCorrectly">Yeah, you got it right!</span>
+                        <span ng-show="!answeredCorrectly">Nope, you got it wrong.</span>
+                    </h2>
+                    <button id="previous" ng-click='showPrevious()' ng-show='flashCard.showPrevious'>previous</button>
+                    <button id="next" ng-click='showNext()' ng-show='flashCard.showNext'>next</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/lib/angular.js"> </script>
+        <script src="js/app.js"> </script>
+        <script src="js/controllers/MainController.js"> </script>
+        <script src="js/controllers/FlashCardController.js"> </script>
+        <script src="js/controllers/StatsController.js"> </script>
+        <script src="js/factories/FlashCardFactory.js"> </script>
+        <script src="js/factories/ScoreFactory.js"> </script>
+    </body>
+</html>
